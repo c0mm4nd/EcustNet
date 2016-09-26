@@ -16,7 +16,7 @@ def Login(stuID, stuPW):
     secondUrl = re.compile('http://login.ecust.edu.cn/&arubalp=.*\'').findall(firstReq.text)[0][:-1]
     secondReq = req.get(secondUrl)
     acId = re.compile("/index_([\d]+).html").findall(secondReq.url)[0]
-    print secondReq.url
+    # print secondReq.url
     args = re.compile('cmd=login.*&url=http%3A%2F%2Flogin.ecust.edu.cn%2F').findall(secondReq.url)[0]
     location = re.compile('http://[0-9]*.[0-9]*.[0-9]*.[0-9]*/').findall(secondReq.url)[0]
     thirdUrl =location + "ac_detect.php?" + "ac_id="+ acId + "&" + args

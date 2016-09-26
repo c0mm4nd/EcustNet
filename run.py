@@ -1,2 +1,7 @@
+#!/usr/bin/python
+#-*- coding:utf8 -*-
 from Srun_login import Login
-print Login(10142045,951120)
+StuID = 10142045 #你的学号
+StuPW = 10142045 #你的密码
+
+print Login(StuID,StuPW)
