@@ -6,8 +6,8 @@
 // Jquery Version
 var request = require('request');
 var cheerio = require("cheerio");
-stuID = 10142045;
-stuPW = 951120;
+stuID = 10142045; // 你的学号
+stuPW = 10142045; // 你的密码
 // console.log(request);
 function httpGet(url, success, fail){
   data={};
