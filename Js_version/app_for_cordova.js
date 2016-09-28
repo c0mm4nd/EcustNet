@@ -1,13 +1,11 @@
-// cordovaHTTP Version (based on cordova-plugin-HTTP)
+// cordovaHTTP Version
 // function httpGet(url, success, fail){
 //   cordovaHTTP.get(url, {}, {}, success, fail);
 // }
 
-// Node Version (based on cheerio)
+// Jquery Version
 var request = require('request');
-var cheerio = require("./cheerio/index");
-stuID = 10142045; // 你的学号
-stuPW = 10142045; // 你的密码
+var cheerio = require("cheerio");
 // console.log(request);
 function httpGet(url, success, fail){
   data={};
@@ -42,7 +40,8 @@ function httpPost(url, data, success, fail){
 }
 
 function validReqSuccess(res){
-  console.log(res.data);
+  // console.log(res.data);
+
   if (res.data.indexOf("http-equiv='refresh'")>0){
     httpGet("http://login.ecust.edu.cn", firstReqSuccess, firstReqFail);
   }else{
@@ -77,11 +76,11 @@ function secondReqSuccess(res){
   acIdReg = /\/index_([\d]+).html/;
   acId = acIdReg.exec(res.header.req._header)[0].substring(7,8);
   // console.log(acId);
-  argsReg= /cmd.+cn%2F/; //cmd=login&switchip=192.168.71.4&mac=34:de:1a:1e:f9:15&ip=172.21.178.43&essid=ECUST&apname=FX-HDZX-2F-W01&apgroup=fx-free-apgroup&url=http%3A%2F%2Flogin%2Eecust%2Eedu%2Ecn%2F
+  argsReg= /cmd.+cn%2F/; //cmd=login&switchip=192.168.71.4&mac=34:de:1a:1e:f9:15&ip=172.21.178.43&essid=ECUST&apname=FX-HDZX-2F-W01&apgroup=fx-free-apgroup&url=http%3A%2F%2Flogin%2Eecust%2Eedu%2Ecn%2Fcn
   args = argsReg.exec(res.header.req._header)[0];
   // console.log(args);
   // locationReg = /http:\/\/[0-9]*.[0-9]*.[0-9]*.[0-9]*\//;
-  // location = locationReg.exec()
+  // location = locationReg.exec()cncn
   locationReg = /host:\s[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*/;
   location = "http://" + locationReg.exec(res.header.req._header)[0].substring(6) + "/";
   // console.log(location);
@@ -96,10 +95,9 @@ function thirdReqFail(res){
 
 function thirdReqSuccess(res){
   console.log("thirdReqSuccess");
-  console.log(res.header.request._redirect.request);//path redirects
-  for (var p in res.header.request._redirect.request){ console.log(p);}
+  console.log(res.header.request.redirects);//path redirects
+  for (var p in res.header.request._redirect.redirects){ console.log(p);}
   finalUrl = res.header.request._redirect.redirects[0].redirectUri;
-  console.log("finalUrl is :");
   console.log(finalUrl);
   html = res.data;
   // console.log(html);
@@ -115,7 +113,6 @@ function thirdReqSuccess(res){
   data.username = stuID + "@free";
   data.password = stuPW;
   data.ajax = "1" ;
-  // console.log(data);
   httpPost(finalUrl, data, finalReqSuccess, finalReqFail);
 }
 

@@ -1,57 +1,62 @@
-// cordovaHTTP Version (based on cordova-plugin-HTTP)
-// function httpGet(url, success, fail){
-//   cordovaHTTP.get(url, {}, {}, success, fail);
-// }
-
-// Node Version (based on cheerio)
-var request = require('request');
-var cheerio = require("./cheerio/index");
-stuID = 10142045; // 你的学号
-stuPW = 10142045; // 你的密码
-// console.log(request);
+// cordovaHTTP Version
 function httpGet(url, success, fail){
-  data={};
-  // console.log(request);
-  // if
-  request(url, function (error, response, body) {
-    var res = {};
-    res.data = body;
-    res.header = response;
-    if (!error && response.statusCode == 200) {
-      success(res);
-    }else{
-      fail(res);
-    }
-  });
+  cordovaHTTP.get(url, {}, {}, success, fail);
 }
 
 function httpPost(url, data, success, fail){
-  form={"form": data};
-  // console.log(request);
-  // if
-  request.post(url, form, function (error, response, body) {
-    var res = {};
-    res.data = body;
-    res.header = response;
-    if (!error && response.statusCode == 200) {
-      success(res);
-    }else{
-      fail(res);
-    }
-  });
+  cordovaHTTP.post(url, data, success, fail);
 }
 
+// Jquery Version
+// var request = require('request');
+// var cheerio = require("cheerio");
+var $ = require('jquery');
+
+// console.log(request);
+// function httpGet(url, success, fail){
+//   data={};
+//   // console.log(request);
+//   // if
+//   request(url, function (error, response, body) {
+//     var res = {};
+//     res.data = body;
+//     res.header = response;
+//     if (!error && response.statusCode == 200) {
+//       success(res);
+//     }else{
+//       fail(res);
+//     }
+//   });
+// }
+
+// function httpPost(url, data, success, fail){
+//   form={"form": data};
+//   // console.log(request);
+//   // if
+//   request.post(url, form, function (error, response, body) {
+//     var res = {};
+//     res.data = body;
+//     res.header = response;
+//     if (!error && response.statusCode == 200) {
+//       success(res);
+//     }else{
+//       fail(res);
+//     }
+//   });
+// }
+
 function validReqSuccess(res){
-  console.log(res.data);
+  // console.log(res);
   if (res.data.indexOf("http-equiv='refresh'")>0){
     httpGet("http://login.ecust.edu.cn", firstReqSuccess, firstReqFail);
   }else{
-    console.log("already Login");
+    alert("already Login");
   }
 }
 
 function validReqFail(res){
-  console.log("validReqFail");
+  alert("validReqFail");
+  console.log(res);
 }
 
 function firstReqSuccess(res){
@@ -66,7 +71,7 @@ function firstReqSuccess(res){
 }
 
 function firstReqFail(res){
-  console.log("firstReqFail");
+  alert("firstReqFail");
 }
 
 function secondReqSuccess(res){
@@ -77,11 +82,11 @@ function secondReqSuccess(res){
   acIdReg = /\/index_([\d]+).html/;
   acId = acIdReg.exec(res.header.req._header)[0].substring(7,8);
   // console.log(acId);
-  argsReg= /cmd.+cn%2F/; //cmd=login&switchip=192.168.71.4&mac=34:de:1a:1e:f9:15&ip=172.21.178.43&essid=ECUST&apname=FX-HDZX-2F-W01&apgroup=fx-free-apgroup&url=http%3A%2F%2Flogin%2Eecust%2Eedu%2Ecn%2F
+  argsReg= /cmd.+cn%2F/; //cmd=login&switchip=192.168.71.4&mac=34:de:1a:1e:f9:15&ip=172.21.178.43&essid=ECUST&apname=FX-HDZX-2F-W01&apgroup=fx-free-apgroup&url=http%3A%2F%2Flogin%2Eecust%2Eedu%2Ecn%2Fcn
   args = argsReg.exec(res.header.req._header)[0];
   // console.log(args);
   // locationReg = /http:\/\/[0-9]*.[0-9]*.[0-9]*.[0-9]*\//;
-  // location = locationReg.exec()
+  // location = locationReg.exec()cncn
   locationReg = /host:\s[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*/;
   location = "http://" + locationReg.exec(res.header.req._header)[0].substring(6) + "/";
   // console.log(location);
@@ -91,19 +96,18 @@ function secondReqSuccess(res){
 }
 
 function thirdReqFail(res){
-  console.log("thirdReqFail");
+  alert("thirdReqFail");
 }
 
 function thirdReqSuccess(res){
   console.log("thirdReqSuccess");
-  console.log(res.header.request._redirect.request);//path redirects
-  for (var p in res.header.request._redirect.request){ console.log(p);}
+  console.log(res.header.request.redirects);//path redirects
+  for (var p in res.header.request._redirect.redirects){ console.log(p);}
   finalUrl = res.header.request._redirect.redirects[0].redirectUri;
-  console.log("finalUrl is :");
   console.log(finalUrl);
   html = res.data;
   // console.log(html);
-  var $ = cheerio.load(html);
+  // var $ = cheerio.load(html);
   data = {};
   data.action = $("input[name='action']").val();
   data.ac_id = $("input[name='ac_id']").val();
@@ -115,12 +119,11 @@ function thirdReqSuccess(res){
   data.username = stuID + "@free";
   data.password = stuPW;
   data.ajax = "1" ;
-  // console.log(data);
   httpPost(finalUrl, data, finalReqSuccess, finalReqFail);
 }
 
 function finalReqFail(res){
-  console.log("finalReqFail");
+  alert("finalReqFail");
 }
 
 function finalReqSuccess(res){
@@ -128,7 +131,15 @@ function finalReqSuccess(res){
 }
 
 function secondReqFail(res){
-  console.log("secondReqFail");
+  alert("secondReqFail");
 }
 
-httpGet("http://www.baidu.com", validReqSuccess, validReqFail);
+// httpGet("http://login.ecust.edu.cn", validReqSuccess, validReqFail);
+
+
+var btn = document.getElementById("Submit");
+btn.onclick = function(){
+  stuID = document.getElementById('stuID').value;
+  stuPW = document.getElementById('stuPW').value;
+  httpGet("http://www.baidu.com", validReqSuccess, validReqFail);
+};
