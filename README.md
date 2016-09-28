@@ -9,7 +9,6 @@ EcustNet为华理校园网（“ECUST”）的**自动连接程序**。
 ### 版本 · Version  
 
 #### 1. Python(命令行)：run.py
-<<<<<<< HEAD
 
 使用方法：
 
@@ -63,4 +62,3 @@ EcustNet为华理校园网（“ECUST”）的**自动连接程序**。
 ### QQ群 · QQ Group
 本项目极度缺人（尤其Android&iOS），欢迎加入本项目，QQ群:56083540
 
->>>>>>> 9c0efe3ca5dc1fa157ef138c52586ef7c5b1f9fb
