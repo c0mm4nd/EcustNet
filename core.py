@@ -15,6 +15,7 @@ def Login(stuID, stuPW):
     else:
         exit()
     req = requests.Session()
+    req.trust_env = False
     firstReq = req.get('http://login.ecust.edu.cn')
     secondUrl = re.compile('http://login.ecust.edu.cn/&arubalp=.*\'').findall(firstReq.text)[0][:-1]
     secondReq = req.get(secondUrl)
@@ -63,5 +64,5 @@ if __name__ == '__main__':
     if Login(StuID, StuPW) is False :
         #返回一个Cookie对象即成功，否则失败。
         print("失败 False")
-    else ：
+    else:
         print("成功 Success")
