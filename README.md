@@ -61,6 +61,11 @@ EcustNet为华理校园网（“ECUST”）的**自动连接程序**。
 >
 > Node版未更新
 
+2017年2月22日19:27:15
+
+> 增加Win下GUI，并生成Win下二进制文件(解压exe.win-amd64-2.7.zip即可食用)
+>
+
 ### 待办 · TODO
 1. ~~完善命令行版本~~
 2. ~~适配Jython，方便日后Jython for android **OR** 直接做个Java版本~~

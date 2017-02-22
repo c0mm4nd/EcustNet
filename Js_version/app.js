@@ -46,11 +46,11 @@ function validReqSuccess(res){
   if (res.data.indexOf("http-equiv='refresh'")>0){
     httpGet("http://login.ecust.edu.cn", firstReqSuccess, firstReqFail);
   }else{
-    console.log("already Login");
+      console.log("already login_ecust_net");
   }
 }
 
-function validReqFail(res){
+function validReqFail() {
   console.log("validReqFail");
 }
 
@@ -61,11 +61,11 @@ function firstReqSuccess(res){
   rst = reg.exec(res.data);
   // console.log(rst[0]);
   // console.log(rst[0].substring(-1,rst[0].length-1));
-  secondUrl = rst[0].substring(-1,rst[0].length-1)
-  httpGet(secondUrl, secondReqSuccess, secondReqFail);
+    secondUrl = rst[0].substring(-1, rst[0].length - 1);
+    httpGet(secondUrl, secondReqSuccess, secondReqFail);
 }
 
-function firstReqFail(res){
+function firstReqFail() {
   console.log("firstReqFail");
 }
 
@@ -74,12 +74,15 @@ function secondReqSuccess(res){
   // console.log(res.data);
   console.log("Header is :");
   console.log(res.header.req._header); //need to change
-  acIdReg = /\/index_([\d]+).html/
-  acId = acIdReg.exec(res.header.req._header)[0].substring(7,8);
+    acIdReg = /\/index_([\d]+).html/;
+    acId = acIdReg.exec(res.header.req._header)[0].substring(7, 8);
   // console.log(acId);
-  argsReg= /cmd.+cn%2F/ //cmd=login&switchip=192.168.71.4&mac=34:de:1a:1e:f9:15&ip=172.21.178.43&essid=ECUST&apname=FX-HDZX-2F-W01&apgroup=fx-free-apgroup&url=http%3A%2F%2Flogin%2Eecust%2Eedu%2Ecn%2F
-  args = argsReg.exec(res.header.req._header)[0]
-  // console.log(args);
+    argsReg = /cmd.+cn%2F/;
+
+
+    //cmd=login&switchip=192.168.71.4&mac=34:de:1a:1e:f9:15&ip=172.21.178.43&essid=ECUST&apname=FX-HDZX-2F-W01&apgroup=fx-free-apgroup&url=http%3A%2F%2Flogin%2Eecust%2Eedu%2Ecn%2F
+    args = argsReg.exec(res.header.req._header)[0];
+    // console.log(args);
   // locationReg = /http:\/\/[0-9]*.[0-9]*.[0-9]*.[0-9]*\//;
   // location = locationReg.exec()
   locationReg = /host:\s[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*/;
@@ -90,16 +93,16 @@ function secondReqSuccess(res){
   httpGet(thirdUrl, thirdReqSuccess, thirdReqFail);
 }
 
-function thirdReqFail(res){
+function thirdReqFail() {
   console.log("thirdReqFail");
 }
 
 function thirdReqSuccess(res){
   console.log("thirdReqSuccess");
   console.log(res.header.request.redirects);//path redirects
-  for (var p in res.header.request._redirect.redirects){ console.log(p);}
+    // for (var p in res.header.request._redirect.redirects){ console.log(p);}
   finalUrl = res.header.request._redirect.redirects[0].redirectUri;
-  console.log(finalUrl);
+    // console.log(finalUrl);
   html = res.data;
   // console.log(html);
   var $ = cheerio.load(html);
@@ -117,15 +120,15 @@ function thirdReqSuccess(res){
   httpPost(finalUrl, data, finalReqSuccess, finalReqFail);
 }
 
-function finalReqFail(res){
+function finalReqFail() {
   console.log("finalReqFail");
 }
 
-function finalReqSuccess(res){
+function finalReqSuccess() {
   console.log("finalReqSuccess");
 }
 
-function secondReqFail(res){
+function secondReqFail() {
   console.log("secondReqFail");
 }
 
