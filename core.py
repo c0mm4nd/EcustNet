@@ -4,6 +4,9 @@
 ''' http://login.ecust.edu.cn '''
 
 
+# import _elementpath as DONTUSE
+
+
 def login_ecust_net(stu_id, stu_pw):
     import re
     import requests
